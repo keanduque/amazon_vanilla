@@ -4,18 +4,20 @@ import "../components/header.js";
 
 const app = document.getElementById("app");
 const headerEl = document.createElement("header-component");
-app.appendChild(headerEl);
+app.prepend(headerEl);
 RenderProductList();
 
 // button events
 const btnAddToCartEl = document.querySelectorAll(".add-to-cart-button");
-const cartQtyEl = document.querySelector(".js-cart-qty");
-
 btnAddToCartEl.forEach((btn) => {
   btn.addEventListener("click", () => {
     const productName = btn.dataset.productName;
     const productId = btn.dataset.productId;
     let matchItem;
+    const qtySelectorEl = document.querySelector(
+      `.js-qty-selector-${productId}`
+    );
+    const selectedVal = Number(qtySelectorEl.value);
 
     cart.forEach((item) => {
       if (productId === item.productId) {
@@ -24,12 +26,12 @@ btnAddToCartEl.forEach((btn) => {
     });
 
     if (matchItem) {
-      matchItem.quantity += 1;
+      matchItem.quantity += selectedVal;
     } else {
       cart.push({
         productId,
         productName,
-        quantity: 1,
+        quantity: selectedVal || 1,
       });
     }
     cartDisplay();
@@ -40,6 +42,7 @@ btnAddToCartEl.forEach((btn) => {
 });
 
 function cartDisplay() {
+  const cartQtyEl = document.querySelector(".js-cart-qty");
   let cartQty = 0;
 
   cart.map((item) => {
@@ -74,8 +77,14 @@ function RenderProductList() {
             
       <div class="product-price">$${formatPrice.toFixed(2)}</div>
       <div class="product-quantity-container">
-        <select>
-          <option selected value="1">1</option>
+        <select class='qty-selector js-qty-selector-${id}'>
+           ${Array.from({ length: 10 })
+             .map((_, i) => {
+               const index = i + 1;
+               return `<option value='${index}'>${index}</option>`;
+             })
+             .join("")}
+          <!--<option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
@@ -84,7 +93,7 @@ function RenderProductList() {
           <option value="7">7</option>
           <option value="8">8</option>
           <option value="9">9</option>
-          <option value="10">10</option>
+          <option value="10">10</option>-->
         </select>
       </div>
       <div class="product-spacer"></div>
