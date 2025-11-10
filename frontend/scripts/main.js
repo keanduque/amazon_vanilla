@@ -7,16 +7,17 @@ const headerEl = document.createElement("header-component");
 app.prepend(headerEl);
 RenderProductList();
 
+const addedMessageTimeouts = {};
 // button events
 const btnAddToCartEl = document.querySelectorAll(".add-to-cart-button");
 btnAddToCartEl.forEach((btn) => {
   btn.addEventListener("click", () => {
-    const productName = btn.dataset.productName;
-    const productId = btn.dataset.productId;
+    const { productName, productId } = btn.dataset;
     let matchItem;
     const qtySelectorEl = document.querySelector(
       `.js-qty-selector-${productId}`
     );
+
     const selectedVal = Number(qtySelectorEl.value);
 
     cart.forEach((item) => {
@@ -36,10 +37,31 @@ btnAddToCartEl.forEach((btn) => {
     }
     cartDisplay();
 
+    addedToCartDisplayMessage(productId);
+
     //localStorage.setItem("amazon-cart", JSON.stringify(cart));
     console.log("cart", cart);
   });
 });
+
+function addedToCartDisplayMessage(id) {
+  const addedToCartDisplayMessageEl = document.querySelector(
+    `.js-add-to-cart-${id}`
+  );
+  addedToCartDisplayMessageEl.classList.add("added-visible");
+
+  const previousTimeoutId = addedMessageTimeouts[id];
+
+  if (previousTimeoutId) {
+    clearTimeout(previousTimeoutId);
+  }
+
+  const timeoutId = setTimeout(() => {
+    addedToCartDisplayMessageEl.classList.remove("added-visible");
+  }, 2000);
+
+  addedMessageTimeouts[id] = timeoutId;
+}
 
 function cartDisplay() {
   const cartQtyEl = document.querySelector(".js-cart-qty");
@@ -84,25 +106,15 @@ function RenderProductList() {
                return `<option value='${index}'>${index}</option>`;
              })
              .join("")}
-          <!--<option selected value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>-->
         </select>
       </div>
       <div class="product-spacer"></div>
       
-      <div class="added-to-cart">
+      <div class="added-to-cart js-add-to-cart-${id}">
         <img src="frontend/images/icons/checkmark.png" />Added
       </div>
       
-      <button data-product-id='${id}' data-product-name='${name}' class="add-to-cart-button button-primary btn-add-to-cart">Add to Cart</button>
+      <button data-product-id='${id}' data-product-name='${name}' class="add-to-cart-button button-primary">Add to Cart</button>
     </div>`;
   });
   productGridEl.innerHTML = productHTML;
