@@ -1,3 +1,4 @@
+import { formatPrice } from "./helpers.js";
 import { products } from "../data/products.js";
 import { cart, addToCart } from "../data/cart.js";
 import "../components/header.js";
@@ -62,11 +63,10 @@ function RenderProductList() {
       priceCents,
     } = product;
 
-    let formatPrice = priceCents / 100;
     productHTML += `
     <div class="product-container">
       <div class="product-image-container">
-          <img class="product-image" src="${image}" />
+          <img class="product-image" src="frontend/${image}" />
       </div>
       <div class="product-name limit-text-to-2-lines">${name}</div>
       <div class="product-rating-container">
@@ -74,7 +74,7 @@ function RenderProductList() {
         <div class="product-rating-count link-primary">${count}</div>
       </div>
             
-      <div class="product-price">$${formatPrice.toFixed(2)}</div>
+      <div class="product-price">$${formatPrice(priceCents)}</div>
       <div class="product-quantity-container">
         <select class='qty-selector js-qty-selector-${id}'>
            ${Array.from({ length: 10 })
