@@ -1,4 +1,4 @@
-import { formatPrice } from "./helpers.js";
+import { formatPrice } from "./utils/helpers.js";
 import { products } from "../data/products.js";
 import { cart, addToCart } from "../data/cart.js";
 import "../components/header.js";
