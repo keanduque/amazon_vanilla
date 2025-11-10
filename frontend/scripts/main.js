@@ -45,6 +45,8 @@ function updateCartQty() {
   const cartQtyEl = document.querySelector(".js-cart-qty");
   let cartQty = 0;
 
+  console.log(cart);
+
   cart.map((cartItem) => {
     cartQty += cartItem.quantity;
   });

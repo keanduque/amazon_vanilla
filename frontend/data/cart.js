@@ -1,4 +1,4 @@
-export const cart = [
+export const cart = JSON.parse(localStorage.getItem("amazon-cart")) || [
   {
     productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 2,
@@ -8,6 +8,10 @@ export const cart = [
     quantity: 1,
   },
 ];
+
+export function saveToStorage() {
+  localStorage.setItem("amazon-cart", JSON.stringify(cart));
+}
 
 export function addToCart(data) {
   const { productName, productId } = data;
@@ -29,12 +33,15 @@ export function addToCart(data) {
       productName,
       quantity: selectedVal || 1,
     });
-    //localStorage.setcartItem("amazon-cart", JSON.stringify(cart));
+    saveToStorage();
   }
 }
 
 export function deleteCartItem(id) {
   const deleteItem = cart.filter((item) => item.productId !== id);
+  console.log("deleteItem", deleteItem);
 
   cart.splice(deleteItem, 1);
+
+  saveToStorage();
 }

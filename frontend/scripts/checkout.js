@@ -6,8 +6,6 @@ RenderCartOrder();
 
 export function RenderCartOrder() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
-  const btnDeleteEl = document.querySelectorAll(".js-btn-delete");
-
   let cartSummaryHTML = "";
   let matchingProduct;
 
@@ -88,6 +86,8 @@ export function RenderCartOrder() {
   });
 
   orderSummaryEl.innerHTML = cartSummaryHTML;
+
+  const btnDeleteEl = document.querySelectorAll(".js-btn-delete");
 
   btnDeleteEl.forEach((btn, i) => {
     btn.addEventListener("click", () => {
