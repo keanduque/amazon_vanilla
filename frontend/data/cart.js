@@ -32,3 +32,9 @@ export function addToCart(data) {
     //localStorage.setcartItem("amazon-cart", JSON.stringify(cart));
   }
 }
+
+export function deleteCartItem(id) {
+  const deleteItem = cart.filter((item) => item.productId !== id);
+
+  cart.splice(deleteItem, 1);
+}

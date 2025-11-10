@@ -1,11 +1,13 @@
 import { formatPrice } from "./utils/helpers.js";
-import { cart } from "../data/cart.js";
+import { cart, deleteCartItem } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 RenderCartOrder();
 
-function RenderCartOrder() {
+export function RenderCartOrder() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
+  const btnDeleteEl = document.querySelectorAll(".js-btn-delete");
+
   let cartSummaryHTML = "";
   let matchingProduct;
 
@@ -19,32 +21,28 @@ function RenderCartOrder() {
     const { id, name, priceCents, image } = matchingProduct;
 
     cartSummaryHTML += `
-    <div class="cart-item-container">
+    <div class="cart-item-container js-cart-item-container-${id}">
         <div class="delivery-date">Delivery date: Tuesday, June 21</div>
 
         <div class="cart-item-details-grid">
-        <img
-            class="product-image"
-            src="../${image}"
-        />
+        <img class="product-image" src="../${image}" />
 
         <div class="cart-item-details">
-            <div class="product-name">
-            ${name}
-            </div>
+            <div class="product-name">${name}</div>
             <div class="product-price">$${formatPrice(priceCents)}</div>
             <div class="product-quantity">
-            <span>
-                Quantity: <span class="quantity-label">${
-                  cartItem.quantity
-                }</span>
-            </span>
-            <span class="update-quantity-link link-primary">
-                Update
-            </span>
-            <span class="delete-quantity-link link-primary">
-                Delete
-            </span>
+                <span>
+                    Quantity: <span class="quantity-label">${
+                      cartItem.quantity
+                    }</span>
+                </span>
+                <span class="update-quantity-link link-primary">
+                    Update
+                </span>
+                <span class="delete-quantity-link link-primary js-btn-delete" data-product-id="${id}">
+                    Delete
+                </span>
+
             </div>
         </div>
 
@@ -90,4 +88,15 @@ function RenderCartOrder() {
   });
 
   orderSummaryEl.innerHTML = cartSummaryHTML;
+
+  btnDeleteEl.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      const { productId } = btn.dataset;
+      deleteCartItem(productId);
+      const itemContainer = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      itemContainer.remove();
+    });
+  });
 }
