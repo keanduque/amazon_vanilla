@@ -1,6 +1,6 @@
 import { formatPrice } from "./utils/helpers.js";
 import { products } from "../data/products.js";
-import { cart, addToCart } from "../data/cart.js";
+import { addToCart, updateCartQty } from "../data/cart.js";
 import "../components/header.js";
 
 const app = document.getElementById("app");
@@ -12,12 +12,16 @@ const addedMessageTimeouts = {};
 
 // button events
 const btnAddToCartEl = document.querySelectorAll(".add-to-cart-button");
+const cartQtyEl = document.querySelector(".js-cart-qty");
+
+updateCartQty(cartQtyEl);
+
 btnAddToCartEl.forEach((btn) => {
   btn.addEventListener("click", () => {
     const { productName, productId } = btn.dataset;
 
     addToCart({ productName, productId });
-    updateCartQty();
+    updateCartQty(cartQtyEl);
     addedToCartDisplayMessage(productId);
   });
 });
@@ -39,18 +43,6 @@ function addedToCartDisplayMessage(id) {
   }, 2000);
 
   addedMessageTimeouts[id] = timeoutId;
-}
-
-function updateCartQty() {
-  const cartQtyEl = document.querySelector(".js-cart-qty");
-  let cartQty = 0;
-
-  console.log(cart);
-
-  cart.map((cartItem) => {
-    cartQty += cartItem.quantity;
-  });
-  cartQtyEl.innerHTML = cartQty;
 }
 
 function RenderProductList() {

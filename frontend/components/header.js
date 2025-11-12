@@ -37,7 +37,7 @@ class Header extends HTMLElement {
 
                 <a class="cart-link header-link" href="frontend/pages/checkout.html">
                 <img class="cart-icon" src="frontend/images/icons/cart-icon.png" />
-                <div class="cart-quantity js-cart-qty">0</div>
+                <div class="cart-quantity js-cart-qty"></div>
                 <div class="cart-text">Cart</div>
                 </a>
             </div>

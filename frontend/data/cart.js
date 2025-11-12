@@ -39,9 +39,28 @@ export function addToCart(data) {
 
 export function deleteCartItem(id) {
   const deleteItem = cart.filter((item) => item.productId !== id);
-  console.log("deleteItem", deleteItem);
 
   cart.splice(deleteItem, 1);
 
   saveToStorage();
+}
+
+export function updateCartQty(el) {
+  let cartQty = 0;
+
+  cart.map((cartItem) => {
+    cartQty += cartItem.quantity;
+  });
+  el.innerHTML = cartQty;
+}
+
+export function updateQty(productId, newQty) {
+  cart.map((cartItem) => {
+    if (cartItem.productId === productId) {
+      cartItem.quantity = newQty;
+      saveToStorage();
+    }
+  });
+
+  return newQty;
 }
