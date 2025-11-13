@@ -6,31 +6,25 @@ import {
   updateDeliveryOption,
   updateQty,
 } from "../../data/cart.js";
-import { products } from "../../data/products.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { getProducts, products } from "../../data/products.js";
+import {
+  deliveryOptions,
+  getDeliveryOptions,
+} from "../../data/deliveryOptions.js";
+import RenderPaymentSummary from "./paymentSummary.js";
 
 export default function RenderCartOrder() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
   let cartSummaryHTML = "";
-  let matchingProduct;
-  let matchingDeliveryOption;
 
   cart.forEach((cartItem) => {
-    products.map((product) => {
-      if (product.id === cartItem.productId) {
-        matchingProduct = product;
-      }
-    });
-
+    const { productId, deliveryOptionId } = cartItem;
+    const matchingProduct = getProducts(productId);
     const { id, name, priceCents, image } = matchingProduct;
+    const matchingDeliveryOption = getDeliveryOptions(deliveryOptionId);
+    const { deliveryDays } = matchingDeliveryOption;
 
-    deliveryOptions.forEach((deliveryOption) => {
-      if (cartItem.deliveryOptionId === deliveryOption.id) {
-        matchingDeliveryOption = deliveryOption;
-      }
-    });
-
-    const deliveryDate = formatDate(matchingDeliveryOption.deliveryDays);
+    const deliveryDate = formatDate(deliveryDays);
 
     cartSummaryHTML += `
     <div class="cart-item-container" data-cart-item-id='${id}' >

@@ -7,7 +7,7 @@ export function getCurrentPage(url) {
   return page;
 }
 
-export const formatPrice = (price) => (price / 100).toFixed(2);
+export const formatPrice = (price) => (Math.round(price) / 100).toFixed(2);
 
 export const formatDate = (deliveryDays) => {
   const today = dayjs();
