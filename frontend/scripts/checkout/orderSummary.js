@@ -6,7 +6,7 @@ import {
   updateDeliveryOption,
   updateQty,
 } from "../../data/cart.js";
-import { getProducts, products } from "../../data/products.js";
+import { getProducts } from "../../data/products.js";
 import {
   deliveryOptions,
   getDeliveryOptions,
@@ -77,6 +77,7 @@ export default function RenderCartOrder() {
       deleteCartItem(productId);
       updateCartQty(checkoutQtyEl);
       cartItemContainerEl.remove();
+      RenderPaymentSummary();
     });
   });
 
@@ -96,6 +97,7 @@ export default function RenderCartOrder() {
       const { quantityInput, quantityLabel } = cartItemContainer(productId);
 
       saveQty(checkoutQtyEl, productId, quantityLabel, quantityInput);
+      RenderPaymentSummary();
     });
   });
   document.querySelectorAll(".quantity-input").forEach((input) => {
@@ -106,6 +108,7 @@ export default function RenderCartOrder() {
 
       if (e.key === "Enter") {
         saveQty(checkoutQtyEl, productId, quantityLabel, quantityInput, input);
+        RenderPaymentSummary();
       }
     });
   });
@@ -117,6 +120,7 @@ export default function RenderCartOrder() {
 
       updateDeliveryOption(productId, deliveryOptionId);
       RenderCartOrder();
+      RenderPaymentSummary();
     });
   });
 }

@@ -52,5 +52,5 @@ export default function RenderPaymentSummary() {
       Place your order
     </button>`;
 
-  document.querySelector(".js-payment-summary").innerHTML += paymentSummaryHTML;
+  document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
 }
