@@ -9,8 +9,6 @@ import {
 import { products } from "../data/products.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 
-RenderCartOrder();
-
 export function RenderCartOrder() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
   let cartSummaryHTML = "";
@@ -36,7 +34,7 @@ export function RenderCartOrder() {
 
     cartSummaryHTML += `
     <div class="cart-item-container" data-cart-item-id='${id}' >
-      <div class="delivery-date js-delivery-date-option">Delivery date: ${deliveryDate}</div>
+      <div class="delivery-date js-delivery-date-display">Delivery date: ${deliveryDate}</div>
 
       <div class="cart-item-details-grid">
         <img class="product-image" src="../${image}" />
@@ -117,6 +115,16 @@ export function RenderCartOrder() {
       }
     });
   });
+
+  document.querySelectorAll(".js-delivery-option").forEach((option) => {
+    option.addEventListener("click", (e) => {
+      const option = e.currentTarget;
+      const { productId, deliveryOptionId } = option.dataset;
+
+      updateDeliveryOption(productId, deliveryOptionId);
+      RenderCartOrder();
+    });
+  });
 }
 
 function saveQty(checkoutQtyEl, productId, quantityLabel, quantityInput) {
@@ -179,11 +187,4 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
 
   return deliveryHTML;
 }
-document.querySelectorAll(".js-delivery-option").forEach((option) => {
-  option.addEventListener("click", (e) => {
-    const option = e.currentTarget;
-    const { productId, deliveryOptionId } = option.dataset;
-
-    updateDeliveryOption(productId, deliveryOptionId);
-  });
-});
+RenderCartOrder();
