@@ -1,4 +1,4 @@
-import { formatPrice } from "./utils/helpers.js";
+import { formatDate, formatPrice } from "./utils/helpers.js";
 import {
   cart,
   deleteCartItem,
@@ -6,6 +6,7 @@ import {
   updateQty,
 } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
 
 RenderCartOrder();
 
@@ -13,6 +14,7 @@ export function RenderCartOrder() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
   let cartSummaryHTML = "";
   let matchingProduct;
+  let matchingDeliveryOption;
 
   cart.forEach((cartItem) => {
     products.map((product) => {
@@ -23,71 +25,46 @@ export function RenderCartOrder() {
 
     const { id, name, priceCents, image } = matchingProduct;
 
+    deliveryOptions.forEach((deliveryOption) => {
+      if (cartItem.deliveryOptionId === deliveryOption.id) {
+        matchingDeliveryOption = deliveryOption;
+      }
+    });
+
+    const deliveryDate = formatDate(matchingDeliveryOption.deliveryDays);
+
     cartSummaryHTML += `
     <div class="cart-item-container" data-cart-item-id='${id}' >
-      <div class="delivery-date">Delivery date: Tuesday, June 21</div>
+      <div class="delivery-date js-delivery-date-option">Delivery date: ${deliveryDate}</div>
 
       <div class="cart-item-details-grid">
-      <img class="product-image" src="../${image}" />
+        <img class="product-image" src="../${image}" />
 
-      <div class="cart-item-details">
-        <div class="product-name">${name}</div>
-        <div class="product-price">$${formatPrice(priceCents)}</div>
-        <div class="product-quantity js-quantity-container" data-product-id='${id}' data-testid='quantity-container'>
-          <span>
-              Quantity: <span class="quantity-label js-qty-label" data-testid="quantity-label">${
-                cartItem.quantity
-              }</span>
-          </span>
-          <span class="update-quantity-link link-primary js-btn-update" data-product-id="${id}" data-testid="update-quantity-link">
-              Update
-          </span>
-          <input type="number" class="quantity-input" value="${
-            cartItem.quantity
-          }" data-product-id="${id}" data-testid="save-quantity-link" />
-          <span class="save-quantity-link link-primary js-btn-save" data-product-id="${id}">Save</span>
-          <span class="delete-quantity-link link-primary js-btn-delete" data-product-id="${id}" data-testid="delete-quantity-link">
-              Delete
-          </span>
+        <div class="cart-item-details">
+          <div class="product-name">${name}</div>
+          <div class="product-price">$${formatPrice(priceCents)}</div>
+          <div class="product-quantity js-quantity-container" data-product-id='${id}' data-testid='quantity-container'>
+            <span>
+                Quantity: <span class="quantity-label js-qty-label" data-testid="quantity-label">${
+                  cartItem.quantity
+                }</span>
+            </span>
+            <span class="update-quantity-link link-primary js-btn-update" data-product-id="${id}" data-testid="update-quantity-link">
+                Update
+            </span>
+            <input type="number" class="quantity-input" value="${
+              cartItem.quantity
+            }" data-product-id="${id}" data-testid="save-quantity-link" />
+            <span class="save-quantity-link link-primary js-btn-save" data-product-id="${id}">Save</span>
+            <span class="delete-quantity-link link-primary js-btn-delete" data-product-id="${id}" data-testid="delete-quantity-link">
+                Delete
+            </span>
+          </div>
         </div>
-      </div>
 
-      <div class="delivery-options">
-        <div class="delivery-options-title">Choose a delivery option:</div>
-          <div class="delivery-option">
-              <input
-                  type="radio"
-                  checked
-                  class="delivery-option-input"
-                  name="delivery-option-${id}"
-              />
-              <div>
-                  <div class="delivery-option-date">Tuesday, June 21</div>
-                  <div class="delivery-option-price">FREE Shipping</div>
-              </div>
-          </div>
-          <div class="delivery-option">
-              <input
-                  type="radio"
-                  class="delivery-option-input"
-                  name="delivery-option-${id}"
-              />
-              <div>
-                  <div class="delivery-option-date">Wednesday, June 15</div>
-                  <div class="delivery-option-price">$4.99 - Shipping</div>
-              </div>
-          </div>
-            <div class="delivery-option">
-            <input
-                type="radio"
-                class="delivery-option-input"
-                name="delivery-option-${id}"
-            />
-            <div>
-                <div class="delivery-option-date">Monday, June 13</div>
-                <div class="delivery-option-price">$9.99 - Shipping</div>
-            </div>
-        </div>
+        <div class="delivery-options js-delivery-options-display">
+          <div class="delivery-options-title">Choose a delivery option:</div>
+          ${deliveryOptionsHTML(matchingProduct, cartItem)}
         </div>
       </div>
     </div>`;
@@ -139,6 +116,43 @@ export function RenderCartOrder() {
       }
     });
   });
+
+  document.querySelectorAll(".delivery-option-input").forEach((option) => {
+    option.addEventListener("click", (e) => {
+      const option = e.currentTarget;
+      const { optionInput } = option.dataset;
+
+      console.log("optionId", optionInput);
+    });
+  });
+}
+
+function deliveryOptionsHTML(matchingProduct, cartItem) {
+  let deliveryHTML = "";
+
+  deliveryOptions.forEach((delivery) => {
+    const { id, deliveryDays, priceCents } = delivery;
+    const deliveryDate = formatDate(deliveryDays);
+    const deliveryPrice = priceCents ? `$${formatPrice(priceCents)}` : `FREE`;
+    const isChecked = id === cartItem.deliveryOptionId;
+
+    deliveryHTML += ` 
+        <div class="delivery-option">
+            <input
+                type="radio"
+                ${isChecked ? "checked" : ""}
+                class="delivery-option-input"
+                name="delivery-option-${matchingProduct.id}"
+                data-option-input="${matchingProduct.id}"
+            />
+            <div>
+                <div class="delivery-option-date">${deliveryDate}</div>
+                <div class="delivery-option-price">${deliveryPrice} Shipping</div>
+            </div>
+        </div>`;
+  });
+
+  return deliveryHTML;
 }
 
 function saveQty(checkoutQtyEl, productId, quantityLabel, quantityInput) {
