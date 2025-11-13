@@ -69,8 +69,6 @@ export function updateQty(productId, newQty) {
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId) {
-  console.log("productId", productId);
-  console.log("deliveryOptionId", deliveryOptionId);
   let matchCartItem;
 
   cart.forEach((cartItem) => {
