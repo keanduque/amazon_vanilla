@@ -73,10 +73,10 @@ export default function RenderCartOrder() {
   btnDeleteEl.forEach((btn) => {
     btn.addEventListener("click", () => {
       const { productId } = btn.dataset;
-      const { cartItemContainerEl } = cartItemContainer(productId);
+      console.log("productId", productId);
       deleteCartItem(productId);
       updateCartQty(checkoutQtyEl);
-      cartItemContainerEl.remove();
+      RenderCartOrder();
       RenderPaymentSummary();
     });
   });

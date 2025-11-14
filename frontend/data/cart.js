@@ -41,9 +41,13 @@ export function addToCart(data) {
 }
 
 export function deleteCartItem(id) {
-  const deleteItem = cart.filter((item) => item.productId !== id);
+  console.log("cart", cart);
+  const index = cart.findIndex((item) => item.productId === id);
+  console.log("index ", index);
 
-  cart.splice(deleteItem, 1);
+  if (index !== -1) {
+    cart.splice(index, 1);
+  }
 
   saveToStorage();
 }

@@ -6,6 +6,7 @@ import { formatPrice } from "../utils/helpers.js";
 export default function RenderPaymentSummary() {
   let productPriceCents = 0;
   let shippingPriceCents = 0;
+  let totalQty = 0;
   cart.forEach((cartItem) => {
     const { productId, deliveryOptionId } = cartItem;
     const product = getProducts(productId);
@@ -15,6 +16,7 @@ export default function RenderPaymentSummary() {
 
     productPriceCents += productPrice * cartItem.quantity;
     shippingPriceCents += deliveryPrice;
+    totalQty += cartItem.quantity;
   });
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
   const taxCents = totalBeforeTaxCents * 0.1;
@@ -23,7 +25,7 @@ export default function RenderPaymentSummary() {
   const paymentSummaryHTML = `
     <div class="payment-summary-title">Order Summary</div>
     <div class="payment-summary-row">
-      <div>Items (3):</div>
+      <div>Items (${totalQty}):</div>
       <div class="payment-summary-money">$${formatPrice(
         productPriceCents
       )}</div>
