@@ -16,3 +16,43 @@ export const formatDate = (deliveryDays) => {
 
   return deliveryStr;
 };
+
+export function calculateDeliveryDate(deliveryOption) {
+  let remainingDays = deliveryOption.deliveryDays;
+  let deliveryDate = dayjs();
+
+  while (remainingDays > 0) {
+    deliveryDate = deliveryDate.add(1, "day");
+
+    if (!isWeekend(deliveryDate)) {
+      remainingDays--;
+    }
+  }
+
+  const dateString = deliveryDate.format("dddd, MMMM D");
+
+  return dateString;
+}
+
+const today = dayjs();
+
+export function isWeekend(date) {
+  const daysOfWeek = date.format("dddd");
+  return daysOfWeek === "Saturday" || daysOfWeek === "Sunday";
+}
+
+// Test this function using a few different dates.
+let date = dayjs();
+// console.log(isWeekend(date));
+
+// date = dayjs().add(2, "day");
+// console.log(date.format("dddd, MMMM D"));
+// console.log(isWeekend(date));
+
+// date = dayjs().add(4, "day");
+// console.log(date.format("dddd, MMMM D"));
+// console.log(isWeekend(date));
+
+// date = dayjs().add(6, "day");
+// console.log(date.format("dddd, MMMM D"));
+// console.log(isWeekend(date));

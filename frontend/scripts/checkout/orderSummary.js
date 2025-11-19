@@ -1,4 +1,9 @@
-import { formatDate, formatPrice } from "../utils/helpers.js";
+import {
+  calculateDeliveryDate,
+  formatDate,
+  formatPrice,
+  isWeekend,
+} from "../utils/helpers.js";
 import {
   cart,
   deleteCartItem,
@@ -164,6 +169,9 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
     const deliveryPrice = priceCents ? `$${formatPrice(priceCents)}` : `FREE`;
     const isChecked = id === cartItem.deliveryOptionId;
 
+    const deliveryDateWithoutWeekend = calculateDeliveryDate(delivery);
+
+    deliveryDate;
     deliveryHTML += ` 
         <div class="delivery-option js-delivery-option" data-delivery-option-id="${id}" data-product-id="${
       matchingProduct.id
@@ -177,7 +185,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
                
             />
             <div>
-                <div class="delivery-option-date">${deliveryDate}</div>
+                <div class="delivery-option-date">${deliveryDateWithoutWeekend}</div>
                 <div class="delivery-option-price">${deliveryPrice} Shipping</div>
             </div>
         </div>`;
