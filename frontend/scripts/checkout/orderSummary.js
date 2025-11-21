@@ -18,7 +18,7 @@ import {
 } from "../../data/deliveryOptions.js";
 import RenderPaymentSummary from "./paymentSummary.js";
 
-export default function RenderCartOrder() {
+export default function RenderOrderSummary() {
   const orderSummaryEl = document.querySelector(".js-order-summary");
   let cartSummaryHTML = "";
 
@@ -32,7 +32,7 @@ export default function RenderCartOrder() {
     const deliveryDate = formatDate(deliveryDays);
 
     cartSummaryHTML += `
-    <div class="cart-item-container" data-cart-item-id='${id}' >
+    <div class="cart-item-container js-cart-item-container js-cart-item-container-${id}" data-cart-item-id='${id}' >
       <div class="delivery-date js-delivery-date-display">Delivery date: ${deliveryDate}</div>
 
       <div class="cart-item-details-grid">
@@ -41,7 +41,7 @@ export default function RenderCartOrder() {
         <div class="cart-item-details">
           <div class="product-name">${name}</div>
           <div class="product-price">$${formatPrice(priceCents)}</div>
-          <div class="product-quantity js-quantity-container" data-product-id='${id}' data-testid='quantity-container'>
+          <div class="product-quantity js-product-quantity-${id}" data-product-id='${id}' data-testid='quantity-container'>
             <span>
                 Quantity: <span class="quantity-label js-qty-label" data-testid="quantity-label">${
                   cartItem.quantity
@@ -54,7 +54,7 @@ export default function RenderCartOrder() {
               cartItem.quantity
             }" data-product-id="${id}" data-testid="save-quantity-link" />
             <span class="save-quantity-link link-primary js-btn-save" data-product-id="${id}">Save</span>
-            <span class="delete-quantity-link link-primary js-btn-delete" data-product-id="${id}" data-testid="delete-quantity-link">
+            <span class="delete-quantity-link js-delete-link-${id} link-primary js-btn-delete" data-product-id="${id}" data-testid="delete-quantity-link">
                 Delete
             </span>
           </div>
@@ -78,10 +78,10 @@ export default function RenderCartOrder() {
   btnDeleteEl.forEach((btn) => {
     btn.addEventListener("click", () => {
       const { productId } = btn.dataset;
-      console.log("productId", productId);
       deleteCartItem(productId);
+
       updateCartQty(checkoutQtyEl);
-      RenderCartOrder();
+      RenderOrderSummary();
       RenderPaymentSummary();
     });
   });
@@ -124,7 +124,7 @@ export default function RenderCartOrder() {
       const { productId, deliveryOptionId } = option.dataset;
 
       updateDeliveryOption(productId, deliveryOptionId);
-      RenderCartOrder();
+      RenderOrderSummary();
       RenderPaymentSummary();
     });
   });

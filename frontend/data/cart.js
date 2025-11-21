@@ -46,9 +46,7 @@ export function addToCart({ productName, productId }) {
 }
 
 export function deleteCartItem(id) {
-  console.log("cart", cart);
   const index = cart.findIndex((item) => item.productId === id);
-  console.log("index ", index);
 
   if (index !== -1) {
     cart.splice(index, 1);
@@ -58,6 +56,8 @@ export function deleteCartItem(id) {
 }
 
 export function updateCartQty(el) {
+  if (!el) return;
+
   let cartQty = 0;
 
   cart.map((cartItem) => {
