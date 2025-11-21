@@ -1,4 +1,4 @@
-import { formatPrice } from "../scripts/utils/helpers.js";
+import { formatPrice } from "../../scripts/utils/helpers.js";
 // Test Cases
 
 // Group of Related Test Case = Test Suite
