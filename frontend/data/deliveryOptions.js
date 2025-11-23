@@ -1,14 +1,3 @@
-export function getDeliveryOptions(deliveryOptionId) {
-  let matchingDeliveryOption;
-
-  deliveryOptions.forEach((deliveryOption) => {
-    if (deliveryOption.id === deliveryOptionId) {
-      matchingDeliveryOption = deliveryOption;
-    }
-  });
-  return matchingDeliveryOption || deliveryOptionId[0];
-}
-
 export const deliveryOptions = [
   {
     id: "1",
@@ -26,3 +15,26 @@ export const deliveryOptions = [
     priceCents: 999,
   },
 ];
+
+export function getDeliveryOptions(deliveryOptionId) {
+  let matchingDeliveryOption;
+
+  deliveryOptions.forEach((deliveryOption) => {
+    if (deliveryOption.id === deliveryOptionId) {
+      matchingDeliveryOption = deliveryOption;
+    }
+  });
+  return matchingDeliveryOption || deliveryOptionId[0];
+}
+
+export function validDeliveryOption(deliveryOptionId) {
+  let found = false;
+
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryOptionId) {
+      found = true;
+    }
+  });
+
+  return found;
+}

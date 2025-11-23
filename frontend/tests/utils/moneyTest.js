@@ -12,4 +12,12 @@ describe("Test suite: formatPrice", () => {
   it("Rounds up to the nearest cent", () => {
     expect(formatPrice(2000.5)).toEqual("20.01");
   });
+
+  it("Rounds down to the nearest cent", () => {
+    expect(formatPrice(2000.4)).toEqual("20.00");
+  });
+
+  it("Test with negative number", () => {
+    expect(formatPrice(-27)).toEqual("-0.27");
+  });
 });

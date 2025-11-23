@@ -7,7 +7,9 @@ export function getCurrentPage(url) {
   return page;
 }
 
-export const formatPrice = (price) => (Math.round(price) / 100).toFixed(2);
+export const formatPrice = (price) => {
+  return (Math.round(price) / 100).toFixed(2);
+};
 
 export const formatDate = (deliveryDays) => {
   const today = dayjs();
@@ -17,8 +19,8 @@ export const formatDate = (deliveryDays) => {
   return deliveryStr;
 };
 
-export function calculateDeliveryDate(deliveryOption) {
-  let remainingDays = deliveryOption.deliveryDays;
+export function calculateDeliveryDate(deliveryDays) {
+  let remainingDays = deliveryDays;
   let deliveryDate = dayjs();
 
   while (remainingDays > 0) {

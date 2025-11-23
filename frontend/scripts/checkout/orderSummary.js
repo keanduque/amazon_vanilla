@@ -2,7 +2,6 @@ import {
   calculateDeliveryDate,
   formatDate,
   formatPrice,
-  isWeekend,
 } from "../utils/helpers.js";
 import {
   cart,
@@ -39,8 +38,10 @@ export default function RenderOrderSummary() {
         <img class="product-image" src="../${image}" />
 
         <div class="cart-item-details">
-          <div class="product-name">${name}</div>
-          <div class="product-price">$${formatPrice(priceCents)}</div>
+          <div class="product-name js-product-name-${id}">${name}</div>
+          <div class="product-price js-product-price-${id}">$${formatPrice(
+      priceCents
+    )}</div>
           <div class="product-quantity js-product-quantity-${id}" data-product-id='${id}' data-testid='quantity-container'>
             <span>
                 Quantity: <span class="quantity-label js-qty-label" data-testid="quantity-label">${
@@ -169,17 +170,21 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
     const deliveryPrice = priceCents ? `$${formatPrice(priceCents)}` : `FREE`;
     const isChecked = id === cartItem.deliveryOptionId;
 
-    const deliveryDateWithoutWeekend = calculateDeliveryDate(delivery);
+    const deliveryDateWithoutWeekend = calculateDeliveryDate(deliveryDays);
 
     deliveryDate;
     deliveryHTML += ` 
-        <div class="delivery-option js-delivery-option" data-delivery-option-id="${id}" data-product-id="${
+        <div class="delivery-option js-delivery-option js-delivery-option-${
+          matchingProduct.id
+        }-${id}" data-delivery-option-id="${id}" data-product-id="${
       matchingProduct.id
     }">
             <input
                 type="radio"
                 ${isChecked ? "checked" : ""}
-                class="delivery-option-input"
+                class="delivery-option-input js-delivery-option-input-${
+                  matchingProduct.id
+                }-${id}""
                 name="delivery-option-${matchingProduct.id}"
                 data-option-input="${matchingProduct.id}"
                

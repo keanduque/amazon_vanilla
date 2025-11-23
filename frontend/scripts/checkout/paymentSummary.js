@@ -32,7 +32,7 @@ export default function RenderPaymentSummary() {
     </div>
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$${formatPrice(
+      <div class="payment-summary-money js-payment-summary-shipping">$${formatPrice(
         shippingPriceCents
       )}</div>
     </div>
@@ -48,7 +48,9 @@ export default function RenderPaymentSummary() {
     </div>
     <div class="payment-summary-row total-row">
       <div>Order total:</div>
-      <div class="payment-summary-money">$${formatPrice(totalCents)}</div>
+      <div class="payment-summary-money js-payment-summary-total">$${formatPrice(
+        totalCents
+      )}</div>
     </div>
     <button class="place-order-button button-primary">
       Place your order
