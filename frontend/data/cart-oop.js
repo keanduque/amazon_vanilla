@@ -25,7 +25,7 @@ function Cart(localStorageKey) {
     saveToStorage() {
       localStorage.setItem(localStorageKey, JSON.stringify(this.cartItems));
     },
-    addToCart({ productName, productId }) {
+    addToCart({ productId, productName = "" }) {
       const qtySelectorEl = document.querySelector(
         `.js-qty-selector-${productId}`
       );
@@ -102,9 +102,14 @@ function Cart(localStorageKey) {
 }
 
 const cart = Cart("amazon-cart-oop");
-console.log("cart", cart);
 cart.loadFromStorage();
+// console.log("cart", cart);
+
+// cart.addToCart({
+//   productId: "8c9c52b5-5a19-4bcb-a5d1-158a74287c53",
+//   productName: "6-Piece Nonstick, Carbon Steel Oven Bakeware Baking Set",
+// });
 
 const businessCart = Cart("business-cart");
 businessCart.loadFromStorage();
-console.log("cart", businessCart);
+// console.log("cart", businessCart);

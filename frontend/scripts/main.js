@@ -20,7 +20,7 @@ btnAddToCartEl.forEach((btn) => {
   btn.addEventListener("click", () => {
     const { productName, productId } = btn.dataset;
 
-    addToCart({ productName, productId });
+    addToCart({ productId, productName });
     updateCartQty(cartQtyEl);
     addedToCartDisplayMessage(productId);
   });
