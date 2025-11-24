@@ -38,7 +38,7 @@ export class Product {
   }
 }
 
-class Clothing extends Product {
+export class Clothing extends Product {
   sizeChartLink;
   constructor(productDetails) {
     super(productDetails);
@@ -47,6 +47,26 @@ class Clothing extends Product {
   extraInfoHTML() {
     //super.extraInfoHTML();  // if you need something to display from parent class
     return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
+  }
+}
+
+export class Applicance extends Product {
+  instructionLink;
+  warrantyLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionLink = productDetails.instructionLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  extraInfoHTML() {
+    return `<a href="${this.instructionLink}" target="_blank">
+        Instructions
+      </a>
+      <a href="${this.warrantyLink}" target="_blank">
+        Warranty
+      </a>`;
   }
 }
 
@@ -99,6 +119,9 @@ export const products = [
       count: 2197,
     },
     priceCents: 1899,
+    type: "appliance",
+    instructionLink: "frontend/images/appliance-instructions.png",
+    warrantyLink: "frontend/images/appliance-warranty.png",
     keywords: ["toaster", "kitchen", "appliances"],
   },
   {
@@ -233,6 +256,9 @@ export const products = [
       count: 846,
     },
     priceCents: 3074,
+    type: "appliance",
+    instructionLink: "frontend/images/appliance-instructions.png",
+    warrantyLink: "frontend/images/appliance-warranty.png",
     keywords: ["water boiler", "appliances", "kitchen"],
   },
   {
@@ -446,6 +472,9 @@ export const products = [
       count: 1211,
     },
     priceCents: 2250,
+    type: "appliance",
+    instructionLink: "frontend/images/appliance-instructions.png",
+    warrantyLink: "frontend/images/appliance-warranty.png",
     keywords: ["coffeemakers", "kitchen", "appliances"],
   },
   {
@@ -490,6 +519,9 @@ export const products = [
       count: 3,
     },
     priceCents: 10747,
+    type: "appliance",
+    instructionLink: "frontend/images/appliance-instructions.png",
+    warrantyLink: "frontend/images/appliance-warranty.png",
     keywords: ["food blenders", "kitchen", "appliances"],
   },
   {
@@ -528,6 +560,9 @@ export const products = [
 ].map((productDetails) => {
   if (productDetails.type === "clothing") {
     return new Clothing(productDetails);
+  }
+  if (productDetails.type === "appliance") {
+    return new Applicance(productDetails);
   }
   return new Product(productDetails);
 });
