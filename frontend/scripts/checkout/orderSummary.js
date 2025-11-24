@@ -24,7 +24,7 @@ export default function RenderOrderSummary() {
   cart.forEach((cartItem) => {
     const { productId, deliveryOptionId } = cartItem;
     const matchingProduct = getProducts(productId);
-    const { id, name, priceCents, image } = matchingProduct;
+    const { id, name, image } = matchingProduct;
     const matchingDeliveryOption = getDeliveryOptions(deliveryOptionId);
     const { deliveryDays } = matchingDeliveryOption;
 
@@ -39,9 +39,7 @@ export default function RenderOrderSummary() {
 
         <div class="cart-item-details">
           <div class="product-name js-product-name-${id}">${name}</div>
-          <div class="product-price js-product-price-${id}">$${formatPrice(
-      priceCents
-    )}</div>
+          <div class="product-price js-product-price-${id}">${matchingProduct.getPrice()}</div>
           <div class="product-quantity js-product-quantity-${id}" data-product-id='${id}' data-testid='quantity-container'>
             <span>
                 Quantity: <span class="quantity-label js-qty-label" data-testid="quantity-label">${

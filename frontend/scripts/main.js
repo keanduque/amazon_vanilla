@@ -54,7 +54,6 @@ function RenderProductList() {
       name,
       image,
       rating: { count },
-      priceCents,
     } = product;
 
     productHTML += `
@@ -64,11 +63,11 @@ function RenderProductList() {
       </div>
       <div class="product-name limit-text-to-2-lines">${name}</div>
       <div class="product-rating-container">
-        <img class="product-rating-stars" src="frontend/images/ratings/rating-45.png" />
+        <img class="product-rating-stars" src="${product.getStarsUrl()}" />
         <div class="product-rating-count link-primary">${count}</div>
       </div>
             
-      <div class="product-price">$${formatPrice(priceCents)}</div>
+      <div class="product-price">${product.getPrice()}</div>
       <div class="product-quantity-container">
         <select class='qty-selector js-qty-selector-${id}'>
            ${Array.from({ length: 10 })
@@ -85,7 +84,7 @@ function RenderProductList() {
         <img src="frontend/images/icons/checkmark.png" />Added
       </div>
       
-      <button data-product-id='${id}' data-product-name='${name}' class="add-to-cart-button button-primary">Add to Cart</button>
+      <button data-product-id="${id}" data-product-name="${name}" class="add-to-cart-button button-primary">Add to Cart</button>
     </div>`;
   });
   productGridEl.innerHTML = productHTML;
