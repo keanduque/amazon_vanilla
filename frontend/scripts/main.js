@@ -78,6 +78,9 @@ function RenderProductList() {
              .join("")}
         </select>
       </div>
+
+      ${product.extraInfoHTML()}
+
       <div class="product-spacer"></div>
       
       <div class="added-to-cart js-add-to-cart-${id}">
