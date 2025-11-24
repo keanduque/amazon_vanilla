@@ -12,7 +12,7 @@ export function getProducts(productId) {
   return matchingProduct;
 }
 
-class Product {
+export class Product {
   id;
   image;
   name;
@@ -49,6 +49,10 @@ class Clothing extends Product {
     return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
   }
 }
+
+/* // built-in class
+// const date = new Date();
+ console.log(date.toLocaleTimeString()); */
 
 export const products = [
   {
@@ -527,3 +531,41 @@ export const products = [
   }
   return new Product(productDetails);
 });
+
+//console.log(this); // undefined
+/* const obj2 = {
+  a: 2,
+  b: this,
+};*/
+/*
+function logThis() {
+  console.log(
+    "logThis() inside a function we can change the value of 'this' :",
+    this
+  );
+}
+logThis.call("'Hello Call' altered using .call()");
+
+const obj3 = {
+  method: () => {
+    console.log(
+      "inside a method() 'this' points to the outer object 'obj3'",
+      this
+    );
+
+    [1, 2, 3].forEach(function () {
+      console.log("normal function with 'this'", this, "pointed to the obj3"); // undefined
+    });
+    [1, 2, 3].forEach(() => {
+      // arrow function do not change the value of this
+      console.log(
+        "arrow () => {} function : do not change the value of 'this'",
+        this,
+        "pointed to the obj3"
+      ); // undefined
+    });
+  },
+};
+
+obj3.method();
+*/
